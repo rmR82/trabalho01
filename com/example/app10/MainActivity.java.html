@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.app10</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.sqlite.SQLiteDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.sqlite.SQLiteStatement</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.RadioGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+    <span class="s1">EditText et1</span><span class="s0">, </span><span class="s1">et2</span><span class="s0">, </span><span class="s1">et3</span><span class="s0">;</span>
+    <span class="s1">Button btn1</span><span class="s0">, </span><span class="s1">btn2</span><span class="s0">;</span>
+    <span class="s1">RadioGroup rgFaccao</span><span class="s0">;  </span><span class="s2">//cria a variável do RadioGroup</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span><span class="s0">;</span>
+
+        <span class="s1">et1 = findViewById(R.id.etNomeJogador)</span><span class="s0">;</span>
+        <span class="s1">et2 = findViewById(R.id.etTagJogador)</span><span class="s0">;</span>
+        <span class="s1">et3 = findViewById(R.id.etNomeHeroi)</span><span class="s0">;</span>
+        <span class="s1">rgFaccao = findViewById(R.id.rgFaccao)</span><span class="s0">;</span>
+        <span class="s1">btn1 = findViewById(R.id.btnSalvar)</span><span class="s0">;</span>
+        <span class="s1">btn2 = findViewById(R.id.btnVerificar)</span><span class="s0">;</span>
+
+        <span class="s1">btn2.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s0">int </span><span class="s1">checkedId = rgFaccao.getCheckedRadioButtonId()</span><span class="s0">;</span>
+                <span class="s0">if</span><span class="s1">(checkedId == -</span><span class="s3">1</span><span class="s1">) {</span>
+                    <span class="s2">//Toast.makeText(this, &quot;Selecione uma facção.&quot;, Toast.LENGTH_SHORT).show();      não funciona e não sei pq!!!!</span>
+                <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">findRadioButton(checkedId)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s1">Intent i = </span><span class="s0">new </span><span class="s1">Intent(getApplicationContext()</span><span class="s0">, </span><span class="s1">view.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+
+                <span class="s1">startActivity(i)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">btn1.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s1">insert()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s2">//sistema criou</span>
+    <span class="s0">private void </span><span class="s1">findRadioButton(</span><span class="s0">int </span><span class="s1">checkedId) {</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">insert(){</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">String nomeJogador = et1.getText().toString()</span><span class="s0">;</span>
+            <span class="s1">String tagJogador = et2.getText().toString()</span><span class="s0">;</span>
+            <span class="s1">String nomeHeroi = et3.getText().toString()</span><span class="s0">;</span>
+            <span class="s0">int </span><span class="s1">faccao = rgFaccao.getCheckedRadioButtonId()</span><span class="s0">;</span>
+
+            <span class="s1">SQLiteDatabase db = openOrCreateDatabase(</span><span class="s4">&quot;SliteDb&quot;</span><span class="s0">, </span><span class="s1">Context.MODE_PRIVATE</span><span class="s0">, null</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">db.execSQL(</span><span class="s4">&quot;CREATE TABLE IF NOT EXISTS records(id INTEGER PRIMARY KEY AUTOINCREMENT, &quot; </span><span class="s1">+</span>
+                    <span class="s4">&quot;nomeJogador VARCHAR NOT NULL, tag VARCHAR NOT NULL, nomeHeroi VARCHAR NOT NULL, faccao NOT NULL)&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String sql = </span><span class="s4">&quot;insert into records(nomeJogador, tagJogador, nomeHeroi)values(?, ?, ?)&quot;</span><span class="s0">;</span>
+            <span class="s1">SQLiteStatement statement = db.compileStatement(sql)</span><span class="s0">;</span>
+            <span class="s1">statement.bindString(</span><span class="s3">1</span><span class="s0">, </span><span class="s1">nomeJogador)</span><span class="s0">;</span>
+            <span class="s1">statement.bindString(</span><span class="s3">2</span><span class="s0">, </span><span class="s1">tagJogador)</span><span class="s0">;</span>
+            <span class="s1">statement.bindString(</span><span class="s3">3</span><span class="s0">, </span><span class="s1">nomeHeroi)</span><span class="s0">;</span>
+            <span class="s1">statement.bindString(</span><span class="s3">4</span><span class="s0">, </span><span class="s1">String.valueOf(faccao))</span><span class="s0">;</span>
+            <span class="s1">statement.execute()</span><span class="s0">;</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s4">&quot;Personagem salvo.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+            <span class="s1">et1.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">et2.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">et3.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">rgFaccao.getCheckedRadioButtonId()</span><span class="s0">;  </span><span class="s2">//não sei bem se tá correto...</span>
+            <span class="s1">et1.requestFocus()</span><span class="s0">;</span>
+
+        <span class="s1">}</span><span class="s0">catch </span><span class="s1">(Exception ex){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s4">&quot;Falha ao salvar.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
